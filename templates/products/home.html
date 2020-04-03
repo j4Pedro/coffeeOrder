@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} 
 Welcome to
 {% endblock title %}
@@ -31,26 +32,40 @@ Welcome to
 
 <div class='row'>
 
-{% for product in products %}
-<div class="col-sm-6">
+  {% for product in products %}
+    <div class='col-sm-4'>
 
-{{ product.id }}
-{{ product.title }}
-{{ product.price }}
+      <div class="img-thumbnail">
+        {% if product.productimage_set.all %}
+            {% for item in product.productimage_set.all %}
+            
+              {% if item.featured %}
+              <img class='img-thumbnail' src="{{ item.image.url }}" />
+              {% else %}
+              <img class='img-fluid' src="{{ item.image.url }}" />
+              {% endif %}
 
-{% for item in product.productimage_set.all %}
+            {% endfor %}
+        {% else %}
+        <img class="img-fluid" src=" {% static "img/pic.png" %}" /> 
+        {% endif %}
 
-{{ item.featured }}
-<img src="{{ item.image.url }}"/>
+          <div class="caption">
+            <a href="{{ product.get_absolute_url }}"><h3>{{ product.title }}</h3></a> 
+            <p> {{ product.remark|truncatewords:10 }} </p>
+            <p>
+            <a href="{{ product.get_absolute_url }}" class="btn btn-primary" > View </a>
+            <a href="#" class="btn btn-outline-secondary" > Button </a>
+            </p>
+          
+          </div>
+      </div>
+    </div>
 
+    {% cycle "" "" "" "</div><hr/><div class='row'>" %}
 
-{% endfor %}
+  {% endfor %}
 </div>
-{% endfor %}
-
-</div>
-
-
 {% endblock content %}
 
 

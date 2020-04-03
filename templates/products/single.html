@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h1> {{product.title}} {{product.price}}</h1>
+
+    {% for img in images %}
+
+        {% if img.featured %}
+        <div class='col-sm-12 col-md-6'>
+        <h2>Featured Image</h2>
+            <img class='img-fluid' src="{{ img.image.url }}" />
+        </div>
+        {% else %}
+        <div class='col-xl-6 col-md-3'>
+        <a href="#" class='thumbnail'>
+            <img class='img-thumbnail' src="{{ img.image.url }}" />
+        </a> 
+        </div>
+    
+        {% endif %}
+
+    {% endfor %}
+
+{% endblock content %}

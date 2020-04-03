@@ -1,11 +1,12 @@
 from django.db import models
 
+
 # Create your models here.
 class Product(models.Model):
     # id 有預設 uid
     title = models.CharField(max_length=100,verbose_name="品名")
     price = models.DecimalField(max_digits=100,decimal_places=2,verbose_name="價格")
-    slug = models.SlugField() #不支援中文
+    slug = models.SlugField(unique=True) #不支援中文
     timestamp = models.DateTimeField(auto_now_add=True,auto_now=False,verbose_name="成立日期")
     updated = models.DateTimeField(auto_now_add=False,auto_now=True,verbose_name="更新日期")
     active = models.BooleanField(default=True)
@@ -13,9 +14,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        unique_together = ('title','slug')
 
     def get_price(self):
         return self.price
+    
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse("single_product",kwargs={"slug":self.slug})
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
