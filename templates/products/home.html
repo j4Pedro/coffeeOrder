@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %} 
+Welcome to
+{% endblock title %}
+
+
+{% block styles %}
+.jumbotron {
+    
+}
+{% endblock styles %}
+
+{% block jQuery %}
+//alert("alert test");
+{% endblock jQuery %}
+
+
+{% block jumbotron %}
+<div class="container">
+  <div class="jumbotron">
+      <h1>Navbar example</h1>
+      <p class="lead">This example is a quick exercise to illustrate how fixed to top navbar works. As you scroll, it will remain fixed to the top of your browser’s viewport.</p>
+      <a class="btn btn-lg btn-primary" href="/docs/4.4/components/navbar/" role="button">View navbar docs &raquo;</a>
+  </div>
+</div>
+
+
+{% endblock jumbotron %}
+{% block content %}
+
+
+<div class='row'>
+
+{% for product in products %}
+<div class="col-sm-6">
+
+{{ product.id }}
+{{ product.title }}
+{{ product.price }}
+
+{% for item in product.productimage_set.all %}
+
+{{ item.featured }}
+<img src="{{ item.image.url }}"/>
+
+
+{% endfor %}
+</div>
+{% endfor %}
+
+</div>
+
+
+{% endblock content %}
+
+
