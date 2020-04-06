@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.product, name='home'),
+    path('search/', views.search, name='search'),
     path('products/', views.all, name='all'),
     path('products/<slug>/', views.single, name='single_product'),
     path('admin/', admin.site.urls),

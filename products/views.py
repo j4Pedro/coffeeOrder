@@ -1,9 +1,24 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404 , HttpRequest
 
 
 # Create your views here.
 from .models import Product, ProductImage
+
+def search(request):
+    try:
+        q = request.GET.get('q')
+    except:
+        q = None
+    if q:
+        products = Product.objects.filter(title__icontains = q)
+        context = {'query':q,'products':products}
+        template_name='products/results.html'
+    else:
+        context = {}
+        template_name='products/home.html'
+    return render(request, template_name, context) 
+
 
 def product(request):
     products = Product.objects.all()
