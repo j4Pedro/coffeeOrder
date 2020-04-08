@@ -33,7 +33,7 @@
         <div id="col-8">
             <div id="car-body">
                 <hr>
-                <h4 class="card-title"> {{ product.title }} <a href='#' class="float-right"> Add to Cart</a></h4> 
+                <h4 class="card-title"> {{ product.title }} <a href='{% url "update_cart" product.slug %}' class="float-right"> Add to Cart</a></h4> 
                 
                 Price :{{product.price}} <br>
                 運費:免運至2099/12/31
