@@ -34,9 +34,21 @@
             <div id="car-body">
                 <hr>
                 <h4 class="card-title"> {{ product.title }} 
-                
-                <a href='{% url "update_cart" product.slug %}?qty=11' class="float-right"> Add to Cart</a></h4> 
-                
+                {% comment %} <a href='{% url "update_cart" product.slug %}' class="float-right"> Add to Cart</a></h4>  {% endcomment %}
+                <div>
+                <form class='form-group pull-right' method='GET' action='{% url "update_cart" product.slug %}'>
+                <input name="qty" type="number" value='1'min="0" />
+                <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="size" id="inlineRadio1" value="0">
+                <label class="form-check-label" for="inlineRadio1">M</label>
+                </div>
+                <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="size" id="inlineRadio2" value="1">
+                <label class="form-check-label" for="inlineRadio2">L</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">加入購物車</button>
+                </form>
+                </div>
                 Price :{{product.price}} <br>
                 運費:免運至2099/12/31
                 <hr>

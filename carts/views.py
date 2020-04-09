@@ -28,8 +28,11 @@ def update_cart(request, slug):
     except:
         qty = ''
         update_qty=False
-
-    
+    try:
+        size = request.GET.get('size')
+    except:
+        size=None
+    print(size)
     try:
         the_id = request.session['cart_id']
     except:
