@@ -23,6 +23,14 @@ def view(request):
 def update_cart(request, slug):
     request.session.set_expiry(300000)
     try:
+        qty = request.GET.get('qty')
+        update_qty=True
+    except:
+        qty = ''
+        update_qty=False
+
+    
+    try:
         the_id = request.session['cart_id']
     except:
         new_cart = Cart()
@@ -39,21 +47,32 @@ def update_cart(request, slug):
     except:
         pass
     
-    cart_item, created = CartItem.objects.filter(product=None).get_or_create(product=product)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart,product=product)
     if created:
-        print("OK!!!")
-    
-    if not cart_item in cart.items.all():
-        cart.items.add(cart_item)
+        print("OK!!! cart_item, created")
+
+    print(qty)
+    print(int(qty))
+ 
+    if update_qty and qty:
+        if int(qty) == 0:
+            cart_item.delete()
+        else:
+            cart_item.quantity = qty
+            cart_item.save()
     else:
-        cart.items.remove(cart_item)
+        pass
+    # if not cart_item in cart.items.all():
+    #     cart.items.add(cart_item)
+    # else:
+    #     cart.items.remove(cart_item)
 
     new_total = 0.00
-    for item in cart.items.all():
+    for item in cart.cartitem_set.all():
         line_total = float(item.product.price) * item.quantity
         new_total += line_total
 
-    request.session['items_total'] = cart.items.count()
+    request.session['items_total'] = cart.cartitem_set.count()
 
     cart.total = new_total
     cart.save()

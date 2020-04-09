@@ -14,21 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from products import views as products_views
 from carts import views as carts_views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', products_views.product, name='home'),
-    path('search/', products_views.search, name='search'),
-    path('products/', products_views.all, name='products'),
-    path('products/<slug>/', products_views.single, name='single_product'),
-    path('cart/<slug>/', carts_views.update_cart, name='update_cart'),
-    path('cart/', carts_views.view, name='cart'),
-    path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
+    re_path(r'^$', products_views.product, name='home'),
+    re_path(r'^s/$', products_views.search, name='search'),
+    re_path(r'^products/$', products_views.all, name='products'),
+    re_path(r'^products/(?P<slug>[\w-]+)/$', products_views.single, name='single_product'),
+    re_path(r'^cart/(?P<slug>[\w-]+)/$', carts_views.update_cart, name='update_cart'),
+    re_path(r'^cart/', carts_views.view, name='cart'),
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^accounts/', include('django.contrib.auth.urls')),
     #path('', include('orders.urls')),
 ]
 
