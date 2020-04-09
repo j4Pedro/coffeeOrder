@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if empty %}
-<h1 style="alogn-center"> 12321{{empty_message}} </h1>
+<!--{% if empty %}
+<h1 style="alogn-center"> {{empty_message}} </h1>
 
 {% else %}
-
+-->
 
 <table class="table">
+{% if request.session.items_total %}
+
     <thead>
     <th> 物品 </th>
     <th> 價格 </th>
@@ -19,15 +21,18 @@
     <td>總金額 : {{ cart.total }}</td>
     </tfoot>
 
-    {% for item in cart.products.all %}
-    
-    <tr>
-        <td> {{ item }} </td> <td> {{ item.price }} </td> <td><a href='{% url "update_cart" item.slug %}'> 刪除 </a></td>
-    </tr>
-    
-    {% endfor %}
-    
+        {% for item in cart.products.all %}
+        
+        <tr>
+            <td> {{ item }} </td> <td> {{ item.price }} </td> <td><a href='{% url "update_cart" item.slug %}'> 刪除 </a></td>
+        </tr>
+        
+        {% endfor %}
+    {% else %}
+    <h1 class="text-center"> 購物車中沒有物品 </h1>
+   {% endif %} 
+   
 </table>
 
-{% endif %}
+<!--{% endif %}-->
 {% endblock content %}

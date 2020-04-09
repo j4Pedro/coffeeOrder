@@ -12,7 +12,7 @@ def view(request):
     if the_id:
         cart = Cart.objects.get(id=the_id)
         context = {"cart":cart}
-    else:
+    else:              #沒作用要修改，先改從cart/view.html判斷
         empty_message = " 購物車中沒有物品 "
         context = {"emty": True, "empty_message":empty_message}
 
@@ -21,7 +21,7 @@ def view(request):
 
 
 def update_cart(request, slug):
-    #request.session.set_expiry(3000)
+    request.session.set_expiry(300000)
     try:
         the_id = request.session['cart_id']
     except:
@@ -46,6 +46,9 @@ def update_cart(request, slug):
     new_total = 0.00
     for item in cart.products.all():
         new_total += float(item.price)
+
+    request.session['items_total'] = cart.products.count()
+    print(cart.products.count())
     cart.total = new_total
     cart.save()
 
