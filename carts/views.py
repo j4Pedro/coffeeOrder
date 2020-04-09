@@ -1,7 +1,7 @@
 from django.shortcuts import render,HttpResponseRedirect
 from django.urls import reverse
 # Create your views here.
-from .models import Cart
+from .models import Cart, CartItem
 from products.models import Product
 
 def view(request):
@@ -38,17 +38,23 @@ def update_cart(request, slug):
         pass
     except:
         pass
-    if not product in cart.products.all():
-        cart.products.add(product)
+    
+    cart_item, created = CartItem.objects.filter(product=None).get_or_create(product=product)
+    if created:
+        print("OK!!!")
+    
+    if not cart_item in cart.items.all():
+        cart.items.add(cart_item)
     else:
-        cart.products.remove(product)
+        cart.items.remove(cart_item)
 
     new_total = 0.00
-    for item in cart.products.all():
-        new_total += float(item.price)
+    for item in cart.items.all():
+        line_total = float(item.product.price) * item.quantity
+        new_total += line_total
 
-    request.session['items_total'] = cart.products.count()
-    print(cart.products.count())
+    request.session['items_total'] = cart.items.count()
+
     cart.total = new_total
     cart.save()
 
