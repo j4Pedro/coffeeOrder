@@ -8,6 +8,7 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity = models.IntegerField(verbose_name="數量",default=1) 
     line_total = models.DecimalField(max_digits=100,decimal_places=2, default=9.99)
+    notes = models.TextField(null=True,blank=True)
     timestamp = models.DateTimeField(auto_now_add=True,auto_now=False,verbose_name="成立日期")
     updated = models.DateTimeField(auto_now_add=False,auto_now=True,verbose_name="更新日期")
    

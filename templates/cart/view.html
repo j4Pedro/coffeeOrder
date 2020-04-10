@@ -13,10 +13,11 @@
     <th> 物品 </th>
     <th> 價格 </th>
     <th> 數量 </th>
-    
+    <th> 備註 </th>
     <th></th>
     </thead>
     <tfoot>
+    <td></td>
     <td></td>
     <td></td>
     <td>總金額 : {{ cart.total }}</td>
@@ -27,7 +28,8 @@
         <tr>
             <td> {{ item.product }} </td> 
             <td> {{ item.product.price }} </td>
-            <td> {{ item.quantity }} </td>  
+            <td> {{ item.quantity }} </td>
+            <td> {{ item.notes }} </td>    
             <td><a href='{% url "update_cart" item.product.slug %}?qty=0'> 刪除 </a></td>
         </tr>
         
