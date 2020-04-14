@@ -11,14 +11,34 @@ def view(request):
         the_id = None
     if the_id:
         cart = Cart.objects.get(id=the_id)
+        new_total = 0.00
+        for item in cart.cartitem_set.all():
+            line_total = float(item.product.price) * item.quantity
+            new_total += line_total
+        request.session['items_total'] = cart.cartitem_set.count()
+        cart.total = new_total
+        cart.save()
+
         context = {"cart":cart}
-    else:              #沒作用要修改，先改從cart/view.html判斷
+    else:              
         empty_message = " 購物車中沒有物品 "
         context = {"emty": True, "empty_message":empty_message}
 
     template_name = "cart/view.html"
     return render(request,template_name,context)
 
+def remove_from_cart(request,id):
+    try:
+        the_id = request.session['cart_id']
+        cart = Cart.objects.get(id=the_id)
+    except:
+        return HttpResponseRedirect(reverse("cart"))
+
+    cartitem = CartItem.objects.get(id = id)
+    #cartitem.delete()
+    cartitem.cart = None
+    cartitem.save()
+    return HttpResponseRedirect(reverse("cart"))
 
 def add_to_cart(request, slug):
     request.session.set_expiry(300000)
@@ -60,13 +80,7 @@ def add_to_cart(request, slug):
             cart_item.variations.add(*product_var)
         cart_item.quantity = qty
         cart_item.save()
-        new_total = 0.00
-        for item in cart.cartitem_set.all():
-            line_total = float(item.product.price) * item.quantity
-            new_total += line_total
-        request.session['items_total'] = cart.cartitem_set.count()
-        cart.total = new_total
-        cart.save()
+
         return HttpResponseRedirect(reverse("cart"))
     
     return HttpResponseRedirect(reverse("cart"))
