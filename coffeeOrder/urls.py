@@ -25,7 +25,7 @@ urlpatterns = [
     re_path(r'^s/$', products_views.search, name='search'),
     re_path(r'^products/$', products_views.all, name='products'),
     re_path(r'^products/(?P<slug>[\w-]+)/$', products_views.single, name='single_product'),
-    re_path(r'^cart/(?P<slug>[\w-]+)/$', carts_views.update_cart, name='update_cart'),
+    re_path(r'^cart/(?P<slug>[\w-]+)/$', carts_views.add_to_cart, name='add_to_cart'),
     re_path(r'^cart/', carts_views.view, name='cart'),
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^accounts/', include('django.contrib.auth.urls')),

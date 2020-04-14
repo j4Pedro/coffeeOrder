@@ -34,10 +34,9 @@
             <div id="col-sm-8 pull-left">
                 <hr>
                 <h4> {{ product.title }} 
-                {% comment %} <a href='{% url "update_cart" product.slug %}' class="float-right"> Add to Cart</a></h4>  {% endcomment %}
             </div>
             <div id="col-sm-8 pull-right"></div>           
-                <form class='form' method='POST' action='{% url "update_cart" product.slug %}'>
+                <form class='form' method='POST' action='{% url "add_to_cart" product.slug %}'>
                 {% csrf_token %}
                 <button class="btn btn-primary btn-block mx-sm-3 mb-2" type="submit" >加入購物車</button>
                 <input class='form-control mx-sm-3 mb-2' name='qty' type='number' value='1'min="0" />
