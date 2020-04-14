@@ -81,7 +81,7 @@ Welcome to
               <p> {{ product.remark|truncatechars:20 }} </p>
               <p>
               <a href="{{ product.get_absolute_url }}" class="btn btn-primary" > 詳細說明 </link>
-              <a href="{% url "update_cart" product.slug %}" class="btn btn-outline-secondary" > 加入購物車 </a>
+              <a href="{% url "add_to_cart" product.slug %}" class="btn btn-outline-secondary" > 加入購物車 </a>
               </p>
             
           </div>
