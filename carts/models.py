@@ -1,11 +1,12 @@
 from django.db import models
 
 # Create your models here.
-from products.models import Product
+from products.models import Product, Variation
 
 class CartItem(models.Model):
     cart = models.ForeignKey('Cart',on_delete=models.CASCADE,null=True,blank=True,)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    variations = models.ManyToManyField(Variation,blank=True)
     quantity = models.IntegerField(verbose_name="數量",default=1) 
     line_total = models.DecimalField(max_digits=100,decimal_places=2, default=9.99)
     notes = models.TextField(null=True,blank=True)
@@ -14,7 +15,7 @@ class CartItem(models.Model):
    
     def __unicode__(self):
         try:
-            return self.cart.id
+            return str(self.cart.id)
         except:
             return self.product.title
 

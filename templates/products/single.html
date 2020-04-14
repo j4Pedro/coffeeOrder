@@ -37,14 +37,33 @@
                 {% comment %} <a href='{% url "update_cart" product.slug %}' class="float-right"> Add to Cart</a></h4>  {% endcomment %}
             </div>
             <div id="col-sm-8 pull-right"></div>           
-                <form class='form' method='GET' action='{% url "update_cart" product.slug %}'>
+                <form class='form' method='POST' action='{% url "update_cart" product.slug %}'>
+                {% csrf_token %}
                 <button class="btn btn-primary btn-block mx-sm-3 mb-2" type="submit" >加入購物車</button>
                 <input class='form-control mx-sm-3 mb-2' name='qty' type='number' value='1'min="0" />
-                <select class='form-control mx-sm-3 mb-2' name='size'>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                </select>
                 
+                {% if product.variation_set.all %}
+
+                    {% if product.variation_set.all %}
+                        <select class='form-control mx-sm-3 mb-2' name='size'>
+                        {% for item in product.variation_set.all %}
+                            <option value="{{ item.title|lower }}">{{ item.title|capfirst }}</option>                
+                        {% endfor %}
+                        </select>
+                    {% endif %}
+
+                    {% if product.variation_set.all %}
+                        <select class='form-control mx-sm-3 mb-2' name='area'>
+                        {% for item in product.variation_set.all %}
+                            <option value="{{ item.title|lower }}">{{ item.title|capfirst }}
+                            </option>                
+                        {% endfor %}
+                        </select>
+                    {% endif %}
+                
+
+
+                {% endif %}
                 
                 
                 </form>
